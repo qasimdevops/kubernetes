@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: sidecar-pod
+spec:
+  containers:
+  - name: main-con
+    image: busybox:stable
+    command: ['sh','-c','echo "i am learning k8s..." > /output-dir/data.txt; while true; do sleep 5; done']
+    volumeMounts:
+    - name: share-volume
+      mountPath: /output-dir
+  - name: side-con
+    image: busybox:stable
+    command: ['sh','-c', 'while true; do cat /input-dir/data.txt;  sleep 5 ; done' ]
+    volumeMounts:
+    - name: share-volume
+      mountPath: /input-dir
+  volumes:
+  - name: share-volume
+    emptyDir: {}
