@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-deployment
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      name: testing
+      environment: main
+  template:
+    metadata:
+      labels:
+        name: testing
+        environment: main
+    spec:
+      containers:
+      - name: main-container
+        image: linuxacademycontent/ckad-nginx:1.0.0
+        ports:
+        - containerPort: 80
+    
